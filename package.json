@@ -1,0 +1,60 @@
+{
+  "name": "@eatonfyi/markup",
+  "version": "1.0.0",
+  "description": "Collects various markup parsing and conversion tools into a consistent wrapper.",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.cts",
+  "exports": {
+    "require": {
+      "types": "./dist/index.d.cts",
+      "default": "./dist/index.cjs"
+    },
+    "import": {
+      "types": "./dist/index.d.mts",
+      "default": "./dist/index.mjs"
+    }
+  },
+  "files": [
+    "/dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "pkgroll",
+    "clean": "shx rm -rf dist",
+    "prepare": "npm run clean && npm run build",
+    "test": "ava"
+  },
+  "ava": {
+    "extensions": {
+      "ts": "module"
+    },
+    "nodeArguments": [
+      "--import=tsimp"
+    ]
+  },
+  "keywords": [
+    "parsing",
+    "html",
+    "xml",
+    "textile",
+    "livejournal",
+    "markdown"
+  ],
+  "author": "eaton",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.11.30",
+    "ava": "^6.1.2",
+    "pkgroll": "^2.0.2",
+    "shx": "^0.3.4",
+    "tsimp": "^2.0.11"
+  },
+  "dependencies": {
+    "@sindresorhus/is": "^6.2.0",
+    "cheerio": "^1.0.0-rc.12",
+    "cheerio-json-mapper": "^1.0.3",
+    "zod": "^3.22.4"
+  }
+}
