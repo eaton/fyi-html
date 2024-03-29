@@ -9,7 +9,7 @@ export { JsonTemplateObject, PipeFn } from 'cheerio-json-mapper'
 /**
  * Uses cheerio to extract structured data from markup
  */
-export async function parse(
+export async function extract(
   input: string | Buffer,
   template: JsonTemplateObject,
   schema: z.ZodTypeAny = fallBackSchema,
