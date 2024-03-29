@@ -8,8 +8,6 @@ Paragraph, _emphasis_, *strong*, and "a link":http://example.com/.
 # Number 1
 # Number 2
 
-bq. A blockquote[1] is here, with inline @code@.
+bq. A blockquote is here, with inline @code@.
 
-!http://example.com/image.jpeg(Image alt text)!, ^superscript^, and ~subscript~.
-
-fn1. Footnote
+!http://example.com/image.jpeg(Image alt text)!

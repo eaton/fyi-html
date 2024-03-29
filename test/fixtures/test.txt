@@ -9,3 +9,5 @@ Paragraph emphasis, strong, and a link (http://example.com/).
 2. Number 2
 
 > A blockquote is here.
+
+!(http://example.com/image.jpeg)

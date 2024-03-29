@@ -30,7 +30,28 @@ export function toMarkdown(input: string, options: ToMarkdownOptions = {}) {
     ...options,
   });
   
-  // if (options.gfm) turndownService.use(gfm)
+  // All this just to make list item indentation correct.
+  // @see {@link https://github.com/mixmark-io/turndown/blob/master/src/commonmark-rules.js}
+  // for the original code.
+  turndownService.addRule('listItem', {
+    filter: 'li',
+    replacement: (content, node, options) => {
+      content = content
+      .replace(/^\n+/, '') // remove leading newlines
+      .replace(/\n+$/, '\n') // replace trailing newlines with just a single one
+      .replace(/\n/gm, '\n    ') // indent
+      var prefix = options.bulletListMarker + ' '
+      var parent = node.parentNode
+      if (parent.nodeName === 'OL') {
+        var start = parent.getAttribute('start')
+        var index = Array.prototype.indexOf.call(parent.children, node)
+        prefix = (start ? Number(start) + index : index + 1) + '. '
+      }
+      return (
+        prefix + content + (node.nextSibling && !/\n$/.test(content) ? '\n' : '')
+      )
+    }
+  });
 
   return turndownService.turndown(input);
 }

@@ -49,7 +49,8 @@
     "ava": "^6.1.2",
     "pkgroll": "^2.0.2",
     "shx": "^0.3.4",
-    "tsimp": "^2.0.11"
+    "tsimp": "^2.0.11",
+    "typescript": "^5.4.3"
   },
   "dependencies": {
     "@types/html-to-text": "^9.0.4",
