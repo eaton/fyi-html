@@ -134,8 +134,8 @@ function processCutTag(html: string) {
  * Generate an full post body from an entry with lj-cut tags.
  */
 function cutBody(html: string) {
-  const wrapperReplacement = '<span class="lj-uncut">$1</span>';
-  const wrapperNoTextReplacement = '<span class="lj-uncut" />';
+  const wrapperReplacement = '<span class="lj-cut expanded">$1</span>';
+  const wrapperNoTextReplacement = '<span class="lj-cut expanded" />';
 
   return html
     .replace(patterns.cutWrapperNoText, wrapperReplacement) // Remove cut wrapper

@@ -23,7 +23,7 @@ test('lj user', t => {
 test('lj-cut', t => {
   t.is(
     fromLivejournal("some text <lj-cut> more text"),
-    'some text <span class="lj-uncut" /> more text'
+    'some text <span class="lj-cut expanded" /> more text'
   );
 
   t.is(
@@ -35,7 +35,7 @@ test('lj-cut', t => {
 test('lj-cut with text', t => {
   t.is(
     fromLivejournal('some text <lj-cut text="marker"> more text'),
-    'some text <span class="lj-uncut" /> more text'
+    'some text <span class="lj-cut expanded" /> more text'
   );
 
   t.is(
@@ -52,6 +52,6 @@ test('lj-cut wrapper', t => {
 
   t.is(
     fromLivejournal('some text <lj-cut text="marker">hidden text</lj-cut> more text'),
-    'some text <span class="lj-uncut">hidden text</span> more text'
+    'some text <span class="lj-cut expanded">hidden text</span> more text'
   );
 });
