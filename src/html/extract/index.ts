@@ -1,10 +1,8 @@
-import { cheerioJsonMapper, JsonTemplateObject, PipeFn, Options } from 'cheerio-json-mapper';
-import { pipeFnMap } from './pipes.js';
+import { cheerioJsonMapper, JsonTemplateObject, Options } from 'cheerio-json-mapper';
 import { z } from 'zod';
-type MapperOptions = Parameters<typeof cheerioJsonMapper>[2];
-const fallBackSchema = z.record(z.unknown());
+import { pipeFnMap } from './pipes.js';
 
-export { JsonTemplateObject, PipeFn } from 'cheerio-json-mapper'
+const fallBackSchema = z.record(z.unknown());
 
 /**
  * Uses cheerio to extract structured data from markup
@@ -13,7 +11,7 @@ export async function extract(
   input: string | Buffer,
   template: JsonTemplateObject,
   schema: z.ZodTypeAny = fallBackSchema,
-  options: MapperOptions = {}
+  options: Partial<Options> = {}
 ): Promise<z.SafeParseReturnType<z.infer<typeof schema>,z.infer<typeof schema>>> {
 
   if (options) {
