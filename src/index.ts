@@ -1,1 +1,5 @@
-export * from './html/index.js';
+export * from './to-cheerio.js';
+export * from './extract/index.js';
+export * from './to-text.js';
+export * from './from-text.js';
+export * from './linkify.js';

@@ -1,4 +1,5 @@
 import { PipeFn, getScope } from 'cheerio-json-mapper';
+import { toText, textPresets } from '../to-text.js';
 import is from '@sindresorhus/is';
 
 export const split: PipeFn = ({ value, args }) => {
@@ -48,10 +49,20 @@ export const outerHtml: PipeFn = ({
   $scope,
   selector,
   opts,
-  value,
 }) => getScope($scope, selector, opts).toString();
 
 export const html = outerHtml;
+
+export const clean: PipeFn = ({
+  $scope,
+  selector,
+  opts,
+  args,
+}) => {
+  const [preset] = args ?? [];
+  const html = getScope($scope, selector, opts).html() ?? '';
+  return toText(html, preset ?? undefined);
+}
 
 export const pad: PipeFn = ({
   $scope,

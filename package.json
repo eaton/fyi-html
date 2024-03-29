@@ -1,5 +1,5 @@
 {
-  "name": "@eatonfyi/markup",
+  "name": "@eatonfyi/html",
   "version": "1.0.0",
   "description": "Collects various markup parsing and conversion tools into a consistent wrapper.",
   "type": "module",
@@ -53,8 +53,13 @@
   },
   "dependencies": {
     "@sindresorhus/is": "^6.2.0",
+    "@types/html-to-text": "^9.0.4",
     "cheerio": "^1.0.0-rc.12",
     "cheerio-json-mapper": "^1.0.3",
+    "entities": "^4.5.0",
+    "html-to-text": "^9.0.5",
+    "humanize-url": "^3.0.0",
+    "linkify-html": "^4.1.3",
     "zod": "^3.22.4"
   }
 }
