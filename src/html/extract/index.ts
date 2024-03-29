@@ -2,7 +2,7 @@ import { cheerioJsonMapper, JsonTemplateObject, Options } from 'cheerio-json-map
 import { z } from 'zod';
 import { pipeFnMap } from './pipes.js';
 
-export { JsonTemplateObject } from 'cheerio-json-mapper';
+export { type JsonTemplateObject } from 'cheerio-json-mapper';
 
 /**
  * Uses cheerio to extract structured data from markup
