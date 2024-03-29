@@ -4,17 +4,15 @@ import { pipeFnMap } from './pipes.js';
 
 export { JsonTemplateObject } from 'cheerio-json-mapper';
 
-const fallBackSchema = z.record(z.unknown());
-
 /**
  * Uses cheerio to extract structured data from markup
  */
-export async function extract(
+export async function extract<T extends z.ZodTypeAny>(
   input: string | Buffer,
-  template: JsonTemplateObject,
-  schema: z.ZodTypeAny = fallBackSchema,
+  template: JsonTemplateObject | JsonTemplateObject[],
+  schema: T,
   options: Partial<Options> = {}
-): Promise<z.SafeParseReturnType<z.infer<typeof schema>,z.infer<typeof schema>>> {
+): Promise<z.infer<T>> {
 
   if (options) {
     options.pipeFns = { ...options.pipeFns, ...pipeFnMap};
@@ -23,5 +21,5 @@ export async function extract(
   }
   
   return cheerioJsonMapper(input.toString(), template, options)
-    .then(results => schema.safeParse(results))
+    .then(results => schema.parse(results))
 }
