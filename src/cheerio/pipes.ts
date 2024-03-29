@@ -63,7 +63,7 @@ export const clean: PipeFn = ({
   args,
 }) => {
   const [preset] = args ?? [];
-  const html = getScope($scope, selector, opts).html() ?? '';
+  const html = getScope($scope, selector, opts).toString() ?? '';
   return toText(html, preset ?? undefined);
 }
 
@@ -74,9 +74,7 @@ export const pad: PipeFn = ({
   args
 }) => getScope($scope, selector, opts).contents().append(args?.[0]?.toString() ?? ' ');
 
-
-
 export const pipeFnMap = {
-  split, join, count, first, last, index, html, outerHtml, pad
+  split, join, count, first, last, index, html, outerHtml, clean, pad
 }
 

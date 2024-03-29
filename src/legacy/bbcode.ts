@@ -33,7 +33,17 @@ export interface FromBBCodeOptions extends Record<string, unknown> {
  * @see {@link https://www.bbcode.org/reference.php} for syntax guidelines.
  */
 export function fromBbcode(input: string, options: FromBBCodeOptions = {}) {
-  const opt = { paragraph: true, cleanUnmatchable: true, ...options };
+  const opt = {
+    newline: false,
+    paragraph: true,
+    ...options
+  };
+
   const parser = new yabbcode(opt);
+
+  parser.registerTag('li', { type: 'replace', open: '<li>', close: '</li>' });
+  parser.registerTag('ol', { type: 'replace', open: '<ol>', close: '</ol>' });
+  parser.registerTag('ul', { type: 'replace', open: '<ul>', close: '</ul>' });
+
   return parser.parse(input);
 }

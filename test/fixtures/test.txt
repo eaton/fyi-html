@@ -8,6 +8,6 @@ Paragraph emphasis, strong, and a link (http://example.com/).
 1. Number 1
 2. Number 2
 
-> A blockquote is here.
+> A blockquote is here, with inline code.
 
 !(http://example.com/image.jpeg)

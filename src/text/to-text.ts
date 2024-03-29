@@ -11,12 +11,15 @@ export const textPresets: Record<string, ToTextOptions | undefined> = {
   default: {
     wordwrap: false,
     selectors: [
-      { selector: 'img', format: 'skip' },
-      { selector: 'a', options: { ignoreHref: true } },
+      { selector: 'img', options: { ignoreHref: true } },
+      { selector: 'a', options: {
+        hideLinkHrefIfSameAsText: true,
+        linkBrackets: ['(', ')'] }
+      },
     ]
   },
 
-  visibleText: {
+  plain: {
     wordwrap: false,
     selectors: [
       { selector: 'img', format: 'skip' },

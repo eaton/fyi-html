@@ -1,7 +1,7 @@
 import test from 'ava';
 import { fromLivejournal } from '../src/index.js';
 
-// Based on Livejournal's HTML scrubbing tests at
+// Based on Livejournal's HTML scrubbing and formatting from the legacy codebase
 // https://github.com/apparentlymart/livejournal/blob/master/t/cleaner-ljtags.t
 
 test('lj user', t => {

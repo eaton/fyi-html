@@ -1,4 +1,4 @@
-import pkg from 'textile-js';
+import * as pkg from 'textile-js';
 const { parse } = pkg;
 
 /**
