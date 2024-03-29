@@ -1,5 +1,5 @@
 import { PipeFn, getScope } from 'cheerio-json-mapper';
-import { toText, textPresets } from '../to-text.js';
+import { toText, textPresets } from '../text/to-text.js';
 
 function isNumericString(input: unknown): input is string {
   return (typeof input === 'string') && input.trim().length > 0 && !Number.isNaN(Number(input.trim()));

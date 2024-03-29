@@ -1,7 +1,11 @@
 import TurndownService from 'turndown';
 
-// Currently does NOT parse tables, github flavored markdown, etc., correctly.
-
+/**
+ * Options to control the rendering of Markdown markup to HTML.
+ * 
+ * @see {@link https://marked.js.org/demo} for syntax and rendering demo.
+ * @see {@link https://github.github.com/gfm/} for Github-Flavored Markdown documentation.
+ */
 export interface ToMarkdownOptions extends TurndownService.Options {
   gfm?: boolean,
   highlightedCodeBlock?: boolean,
@@ -10,8 +14,12 @@ export interface ToMarkdownOptions extends TurndownService.Options {
   taskListItems?: boolean,
 };
 
-// See https://marked.js.org/demo and https://github.github.com/gfm/ 
-
+/**
+ * Parse Markdown text and return formatted HTML.
+ * 
+ * @see {@link https://marked.js.org/demo} for syntax and rendering demo.
+ * @see {@link https://github.github.com/gfm/} for Github-Flavored Markdown documentation.
+ */
 export function toMarkdown(input: string, options: ToMarkdownOptions = {}) {
   const turndownService = new TurndownService({
     hr: '---',

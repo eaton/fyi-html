@@ -1,6 +1,6 @@
 import { HtmlToTextOptions as ToTextOptions, htmlToText } from 'html-to-text';
 
-export { HtmlToTextOptions as ToTextOptions } from 'html-to-text';
+export { type HtmlToTextOptions as ToTextOptions } from 'html-to-text';
 
 export function toText(html: string, options: string | ToTextOptions = 'default'): string {
   const op = (typeof options === 'string') ? textPresets[options] : options;

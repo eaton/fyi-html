@@ -11,9 +11,9 @@ import { pipeFnMap } from './pipes.js';
 export {
   type JsonTemplateObject as ExtractTemplateObject,
   type JsonTemplate as ExtractTemplate,
-  Options as ExtractOptions,
-  PipeFn as ExtractPipe,
-  PipeInput as ExtractPipeInput,
+  type Options as ExtractOptions,
+  type PipeFn as ExtractPipe,
+  type PipeInput as ExtractPipeInput,
 } from 'cheerio-json-mapper';
 
 type MappedReturn<T extends string | ExtractTemplateObject[] | ExtractTemplate, S> =
