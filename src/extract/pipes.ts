@@ -1,6 +1,9 @@
 import { PipeFn, getScope } from 'cheerio-json-mapper';
 import { toText, textPresets } from '../to-text.js';
-import is from '@sindresorhus/is';
+
+function isNumericString(input: unknown): input is string {
+  return (typeof input === 'string') && input.trim().length > 0 && !Number.isNaN(Number(input.trim()));
+}
 
 export const split: PipeFn = ({ value, args }) => {
   if (value !== null && value !== void 0) {
@@ -37,7 +40,7 @@ export const last: PipeFn = ({ value }) =>
 export const index: PipeFn = ({ value, args }) => {
   if (Array.isArray(value)) {
     const [idx] = args ?? [];
-    if (is.numericString(idx)) {
+    if (isNumericString(idx)) {
       return value[Number.parseInt(idx)];
     }
     return void 0;
