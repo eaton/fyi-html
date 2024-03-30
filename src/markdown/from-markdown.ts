@@ -29,6 +29,7 @@ export interface MarkdownExtension extends MarkedExtension {};
 export function fromMarkdown(input: string, options: FromMarkdownOptions = {}) {
   const opt: FromMarkdownOptions = {
     gfm: true,
+    footnotes: true,
     breaks: true,
     ...options
   };
