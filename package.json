@@ -53,6 +53,7 @@
     "typescript": "^5.4.3"
   },
   "dependencies": {
+    "@iarna/rtf-to-html": "^1.1.0",
     "@types/html-to-text": "^9.0.4",
     "@types/turndown": "^5.0.4",
     "cheerio": "^1.0.0-rc.12",
