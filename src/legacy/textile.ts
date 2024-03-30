@@ -1,5 +1,5 @@
 import * as pkg from 'textile-js';
-const { parse } = pkg;
+const textile = pkg.default;
 
 /**
  * Options to control the rendering of Textile markup to HTML.
@@ -20,5 +20,5 @@ export interface FromTextileOptions extends Record<string, unknown> {
  */
 export function fromTextile(input: string, options: FromTextileOptions = {}) {
   const opt: FromTextileOptions = { breaks: false, ...options };
-  return parse(input, opt);
+  return textile(input, opt) as string;
 }

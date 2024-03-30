@@ -6,7 +6,7 @@ const md = fs.readFileSync(new URL('./fixtures/test.md', import.meta.url)).toStr
 const html = fs.readFileSync(new URL('./fixtures/test.html', import.meta.url)).toString();
 
 test('reference doc', async t => {
-  t.is(await fromMarkdown(md), html);
+  t.is(fromMarkdown(md), html);
 });
 
 test('reference doc roundtrip', t => {
