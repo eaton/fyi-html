@@ -1,47 +1,39 @@
 import rtfToHTML from '@iarna/rtf-to-html';
+const { fromString, fromStream } = rtfToHTML;
 import { promisify } from 'util';
 
-type RgbColor = { red: number, blue: number, green: number };
-
-export interface HtmlToRTFOptions {
-  // defaults to \n\n
+export type FromRtfOptions = {
   paraBreaks?: string;
-  // defaults to p
   paraTag?: string;
-  template?: typeof outputTemplate
-  // Defaults to true. If you set this to false then we'll output font change information when we encounter it. This is a bit broken due to our not supporting styles.
+  template?: OutputTemplate
   disableFonts?: boolean;
-  // Defaults to the document-wide declared font size, or if that's missing, 24.
   fontSize?: number;
-  // Defaults to false
   bold?: boolean;
-  // Defaults to false
   italic?: boolean;
-  // Defaults to false
   underline?: boolean;
-  // Defaults to false
   strikethrough?: boolean;
   foreground?: RgbColor;
   background?: RgbColor;
   indent?: number;
   align?: 'left' | 'center' | 'right';
 };
+type OutputTemplate = (doc: any, defaults: FromRtfOptions, content: string) => string;
+type RgbColor = { red: number, blue: number, green: number };
 
-export async function fromRtf(input: string, options: HtmlToRTFOptions = {}) {
-  const fromStream = promisify(rtfToHTML);
-  const fromString = promisify(rtfToHTML.fromString);
+export async function fromRtf(input: string, options: FromRtfOptions = {}) {
+  const stream = promisify(fromStream);
+  const text = promisify(fromString);
 
   options.template ??= outputTemplate;
 
   if (typeof input === 'string') {
-    return fromString(input, options);
+    return stream(input, options);
   } else {
-    return fromStream(input, options);
+    return text(input, options);
   }
 }
 
-function outputTemplate (doc: Record<string, unknown>, defaults: HtmlToRTFOptions, content: string) {
-  console.log(doc);
+function outputTemplate(doc: Record<string, unknown>, defaults: FromRtfOptions, content: string) {
   return `<!DOCTYPE html>
 <html>
   <head>
