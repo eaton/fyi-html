@@ -1,5 +1,6 @@
 import test from 'ava';
-import { extract, extractXml, extractAndParse } from '../src/index.js';
+import { extract } from '../src/index.js';
+import { z } from 'zod';
 
 const html = `
 <html>
@@ -13,6 +14,15 @@ const html = `
 <p>More transcript</p>
 </body>
 </html>
+`;
+
+const xml = `
+<xml>
+<test>Text<foo id="1" /></test>
+<p>Paragraph</p>
+<p>Paragraph 2</p>
+<data><![CDATA[<p>Escaped text</p>]]></data>
+</xml>
 `;
 
 test('test extraction', async t => {
@@ -30,19 +40,41 @@ test('test extraction', async t => {
   t.is(extracted.transcript, '<p>Transcript</p><p>More transcript</p>');
 });
 
+test('array extraction', async t => {
+  const extracted = await extract(html, [{ $: 'p', value: '|text' }]);
+  const expected = [
+    { value: 'Body' }, 
+    { value: 'More body' },
+    { value: 'Image here' },
+    { value: 'Transcript' },
+    { value: 'More transcript' }
+  ];
+
+  t.deepEqual(extracted, expected);
+});
 
 test('xml', async t => {
-  const xml = '<xml><test>Text<foo id="1" /></test></xml>';
-  const extracted = await extractXml(xml, {
-    test: 'test',
-    id: 'foo | attr:id',
-  });
+  const extracted = await extract(
+    xml,
+    { test: 'test', id: 'foo | attr:id' },
+    undefined,
+    { xml: true }
+  );
 
   t.deepEqual(extracted, { test: 'Text', id: '1' });
 });
 
 test('cdata', async t => {
-  const xml = "<xml><test><![CDATA[<p>This is a test.</p>]]></test></xml>";
-  const extracted = await extractXml(xml, { test: 'test' });
-  t.deepEqual(extracted, { test: '<p>This is a test.</p>' });
+  const extracted = await extract(xml, { data: 'data' }, undefined, { xml: true });
+  t.deepEqual(extracted, { data: '<p>Escaped text</p>' });
+});
+
+test('template + schema', async t => {
+  const html = '<div><p>First string</p><p>Second string</p></div>';
+  const template = [{ $: 'p', value: '|text' }];
+  const schema = z.array(z.object({ value: z.string() }));
+
+  const extracted = await extract(html, template, schema);
+  
+  t.deepEqual(extracted, [{ value: 'First string' }, { value: 'Second string' }]);
 });

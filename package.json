@@ -22,7 +22,7 @@
   ],
   "scripts": {
     "build": "pkgroll",
-    "clean": "shx rm -rf dist",
+    "clean": "shx rm -rf dist && shx rm -rf .tsimp",
     "prepare": "npm run clean && npm run build",
     "test": "ava"
   },

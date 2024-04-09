@@ -1,59 +1,45 @@
 import { toCheerio } from './to-cheerio.js';
-import * as cheerio from 'cheerio';
+import { z } from 'zod';
 
 import {
   cheerioJsonMapper,
-  JsonTemplateObject as ExtractTemplateObject,
   JsonTemplate as ExtractTemplate,
-  Options as ExtractOptions,
+  Options,
 } from 'cheerio-json-mapper';
 
 import { pipeFnMap } from './pipes.js';
 
 export {
   type JsonTemplateObject as ExtractTemplateObject,
-  type JsonTemplate as ExtractTemplate,
   type PipeFn as ExtractPipe,
-  type Options as ExtractOptions,
   type PipeInput as ExtractPipeInput,
 } from 'cheerio-json-mapper';
 
-type MappedReturn<T> = (T extends [] ? Record<string, unknown>[] : Record<string, unknown>);
+export interface ExtractOptions extends Options {
+  xml?: boolean;
+}
+
+type ArrayOrSingle<T> = T extends [] ? Record<string, unknown>[] : Record<string, unknown>;
+type ZodOrFallback<T, S extends z.ZodTypeAny> = S extends z.ZodUndefined ? ArrayOrSingle<T> : z.infer<S>;
 
 /**
  * Uses cheerio to extract structured data from markup
  */
-export async function extract<T extends ExtractTemplate>(
+export async function extract<T extends ExtractTemplate, S extends z.ZodTypeAny = z.ZodUndefined>(
   input: string | Buffer,
   template: T,
+  schema?: S,
   options: Partial<ExtractOptions> = {}
-): Promise<MappedReturn<T>> {
+): Promise<ZodOrFallback<T, S>> {
   if (options) {
     options.pipeFns = { ...options.pipeFns, ...pipeFnMap};
   } else {
     options = { pipeFns: pipeFnMap };
   }
-
-  return cheerioJsonMapper(input.toString(), template, options) as Promise<MappedReturn<T>>;
-}
-
-/**
- * Uses cheerio to to extract data from markup, with XML parsing rules
- */
-export async function extractXml<T extends ExtractTemplate>(
-  input: string | Buffer,
-  template: T,
-  options: Partial<ExtractOptions> = {}
-): Promise<MappedReturn<T>> {
-  if (options) {
-    options.pipeFns = { ...options.pipeFns, ...pipeFnMap};
-  } else {
-    options = { pipeFns: pipeFnMap };
-  }
-
-  const dom = toCheerio(input.toString(), { xml: true, xmlMode: true })(':root');
+  const dom = toCheerio(input.toString(), { xml: options.xml, xmlMode: options.xml })(':root');
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  return cheerioJsonMapper(dom, template, options) as Promise<MappedReturn<T>>;
+  return cheerioJsonMapper(dom, template, options)
+    .then(output => schema ? schema.parse(output) :  output) as Promise<ZodOrFallback<T, S>>;
 }
