@@ -1,5 +1,5 @@
 import test from 'ava';
-import { extract, extractXml } from '../src/index.js';
+import { extract, extractXml, extractAndParse } from '../src/index.js';
 
 const html = `
 <html>

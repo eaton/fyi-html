@@ -8,6 +8,7 @@ import {
   Options as ExtractOptions,
 } from 'cheerio-json-mapper';
 
+import { z } from 'zod';
 import { pipeFnMap } from './pipes.js';
 
 export {
@@ -18,33 +19,34 @@ export {
   type PipeInput as ExtractPipeInput,
 } from 'cheerio-json-mapper';
 
-type MappedReturn<T> = (T extends [] ? Record<string, unknown>[] : Record<string, unknown>);
-
 /**
  * Uses cheerio to extract structured data from markup
  */
-export async function extract<T extends ExtractTemplate>(
+export async function extractAndParse<T extends ExtractTemplate, S extends z.ZodTypeAny>(
   input: string | Buffer,
   template: T,
+  schema: S,
   options: Partial<ExtractOptions> = {}
-): Promise<MappedReturn<T>> {
+): Promise<z.infer<S>> {
   if (options) {
     options.pipeFns = { ...options.pipeFns, ...pipeFnMap};
   } else {
     options = { pipeFns: pipeFnMap };
   }
 
-  return cheerioJsonMapper(input.toString(), template, options) as Promise<MappedReturn<T>>;
+  return cheerioJsonMapper(input.toString(), template, options)
+    .then(results => (schema).parse(results)) as Promise<z.infer<S>>
 }
 
 /**
  * Uses cheerio to to extract data from markup, with XML parsing rules
  */
-export async function extractXml<T extends ExtractTemplate>(
+export async function extractAndParseXml<T extends ExtractTemplate, S extends z.ZodTypeAny>(
   input: string | Buffer,
   template: T,
+  schema: S,
   options: Partial<ExtractOptions> = {}
-): Promise<MappedReturn<T>> {
+): Promise<z.infer<S>> {
   if (options) {
     options.pipeFns = { ...options.pipeFns, ...pipeFnMap};
   } else {
@@ -55,5 +57,6 @@ export async function extractXml<T extends ExtractTemplate>(
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  return cheerioJsonMapper(dom, template, options) as Promise<MappedReturn<T>>;
+  return cheerioJsonMapper(dom, template, options)
+    .then(results => (schema).parse(results)) as Promise<z.infer<S>>
 }
