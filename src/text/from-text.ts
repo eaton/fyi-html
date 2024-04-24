@@ -1,5 +1,5 @@
 import * as entities from 'entities';
-import { linkify } from '../linkify.js';
+import { linkify } from '../util/linkify.js';
 
 export interface FromTextOptions {
   /**
