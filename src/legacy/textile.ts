@@ -1,5 +1,5 @@
 import textile from 'textile-js';
-const parse = textile.textile;
+const parse = textile;
 
 /**
  * Options to control the rendering of Textile markup to HTML.
