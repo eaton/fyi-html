@@ -48,6 +48,13 @@ export const index: PipeFn = ({ value, args }) => {
   return void 0;
 };
 
+
+export const xmlAttr: PipeFn = ({ $scope, selector, args, opts }) => {
+  var _a, _b;
+  const attrName = ((_a = args === null || args === void 0 ? void 0 : args[0]) === null || _a === void 0 ? void 0 : _a.toString()) || '';
+  return (_b = getScope($scope, selector, opts).attr(attrName.replace('%', ':'))) === null || _b === void 0 ? void 0 : _b.trim();
+},
+
 export const outerHtml: PipeFn = ({
   $scope,
   selector,
@@ -75,6 +82,6 @@ export const pad: PipeFn = ({
 }) => getScope($scope, selector, opts).contents().append(args?.[0]?.toString() ?? ' ');
 
 export const pipeFnMap = {
-  split, join, count, first, last, index, html, outerHtml, clean, pad
+  split, join, count, first, last, index, html, outerHtml, clean, pad, xmlAttr
 }
 
