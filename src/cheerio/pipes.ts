@@ -53,7 +53,7 @@ export const xmlAttr: PipeFn = ({ $scope, selector, args, opts }) => {
   var _a, _b;
   const attrName = ((_a = args === null || args === void 0 ? void 0 : args[0]) === null || _a === void 0 ? void 0 : _a.toString()) || '';
   return (_b = getScope($scope, selector, opts).attr(attrName.replace('%', ':'))) === null || _b === void 0 ? void 0 : _b.trim();
-},
+};
 
 export const outerHtml: PipeFn = ({
   $scope,
