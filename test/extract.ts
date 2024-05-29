@@ -18,7 +18,7 @@ const html = `
 
 const xml = `
 <xml>
-<test>Text<foo id="1" /></test>
+<test custom:opt="custom">Text<foo id="1" /></test>
 <p>Paragraph</p>
 <p>Paragraph 2</p>
 <data><![CDATA[<p>Escaped text</p>]]></data>
@@ -68,6 +68,12 @@ test('cdata', async t => {
   const extracted = await extract(xml, { data: 'data' }, undefined, { xml: true });
   t.deepEqual(extracted, { data: '<p>Escaped text</p>' });
 });
+
+test('custom attribute', async t => {
+  const extracted = await extract(xml, { data: 'test | xmlAttr:custom%opt' }, undefined, { xml: true });
+  t.deepEqual(extracted, { data: 'custom' });
+});
+
 
 test('template + schema', async t => {
   const html = '<div><p>First string</p><p>Second string</p></div>';
