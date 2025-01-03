@@ -1,6 +1,6 @@
 {
   "name": "@eatonfyi/html",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Collects various markup parsing and conversion tools into a consistent wrapper.",
   "type": "module",
   "main": "./dist/index.cjs",
