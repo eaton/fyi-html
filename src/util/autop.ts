@@ -1,6 +1,6 @@
 // Just an absolute embarassment of a function.
 // Brute-force ported from php to typescript with codellama.
-// Will replace later. 
+// Will replace later.
 
 export function autop(text: string, br = true): string {
   const preTags: { [key: string]: string } = {};
