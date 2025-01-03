@@ -1,5 +1,6 @@
 import * as entities from 'entities';
 import { linkify } from '../util/linkify.js';
+import { autop } from '../util/autop.js';
 
 export interface FromTextOptions {
   /**
@@ -56,16 +57,12 @@ export function fromText(text: string, options: FromTextOptions = {}) {
   }
 
   if (opt.paragraphs) {
-    output = output
-      .split(/(\s*\n){2,}/g) // split on multiple linebreaks
-      .filter((t) => t.trim().length > 0) // filter blank lines
-      .map((t) => '<p>' + t + '</p>') // wrap in paragraph tags
-      .join('\n'); // join with single linebreaks
+    output = autop(output);
   }
 
   if (opt.urls) {
     output = linkify(output);
   }
 
-  return output;
+  return output.trim();
 }
